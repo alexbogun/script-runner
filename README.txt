@@ -25,7 +25,6 @@ It will also be executed in parallel with 2 concurent workers.
 
  
 Usage example2: 
-
 runner.py -w 2 -f script.py -a "-m -es 0+1 §1 -i §2" -l "NN+CB #5+1"
 
 this will run 22 models: 10 NN models each with es=0 & es=1, and 1 CB models each with es=0 & es=1
