@@ -14,15 +14,9 @@ if True:                        # Imports, command line options & defaults
     _LOG_FILE = 'runner_log.txt'                                    # file to save logs
     _TIMEZONE = 'Europe/Amsterdam'                                  # Time zone to use
     _PROJDIR = os.getcwd() + '/'                                    # project directory
-    #_PROJDIR = os.path.dirname(os.path.realpath(__file__)) + '/'    # project directory (better compatability, but bugged in VSCode for now)
-
 
     # sys args for Jupyter. Use to supply arguments if the script is run there)
-    _ARGS_IPYTHON = '-d 1 -w 1 -ex mnist1 -a'.split() 
-    _ARGS_IPYTHON.append("-ex mnist1 -m §1 -i §2 -e 10 -rn '<model>_<iterator>'")
-    _ARGS_IPYTHON.append('-l')
-    _ARGS_IPYTHON.append('NN #8')
-    #_ARGS_IPYTHON = ''
+    _ARGS_IPYTHON = ''.split() 
 
     if 'ipykernel' in sys.argv[0]: 
         _args = _ARGS_IPYTHON       # this enables running in Jupyter Notebook
@@ -38,8 +32,8 @@ if True:                        # Imports, command line options & defaults
     '\n             #5 will be replaced with 1+2+3+4+5, #5:7 with 5+6+7')
     _p.add_argument('-f', '--file', metavar='#', type=str, default='mnist.py',  help="script to run")
     _p.add_argument('-w', '--workers', metavar='#', type=int, default=4, help='number of workers')     
-    _p.add_argument('-ef', '--experiments_folder', metavar='#', type=str, default='experiments', help='experiments folder')
-    _p.add_argument('-ex', '--experiment', metavar='#', type=str, default='mnist', help='experiment name')
+    _p.add_argument('-of', '--outfolder', metavar='#', type=str, default='zoos', help='output folder')
+    _p.add_argument('-rf', '--runfolder', metavar='#', type=str, default='mnist', help='run folder')
     _p.add_argument('-v', '--verbose', metavar='#', type=int, default=0, help='verbosity of each run')
     _p.add_argument('-a', '--arguments', metavar='#', type=str, default='-sa 1 -i §1 -rn model_iterator',  help="agrs combination, e.g. '-e 5+10 -d 0.1+0.2'")
     _p.add_argument('-l', '--lists',    metavar='#', type=str, default='#10',  help="corresponding lists e.g. 'NN+CB 0.1+0.2'")
@@ -58,7 +52,7 @@ if True:                        # Imports, command line options & defaults
             conf.args = ''
         conf.args = conf.args + ' '.join(_args)
 
-    _EXPDIR = _PROJDIR + conf.experiments_folder + '/' + conf.experiment
+    _EXPDIR = _PROJDIR + conf.outfolder + '/' + conf.runfolder
 
 
 if True:                        # Functions

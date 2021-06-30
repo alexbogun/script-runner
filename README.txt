@@ -3,6 +3,8 @@ Simple runner-sript to schedule multiple runs of the worker-script with differen
 -f: the name of the script to execute
 -w: defines number of parallel workers to use
 -d: sets delay before starting next worker
+-of: parent folder to store set of runs
+-rf: folder to store current set of runs
 -a: (followed by string in "") contains arguments passed to individual scripts:
 	"+" will result in individual runs containing each parameter e.g. "1+2" will run script twice with "1" and "2"
         "#" will create ranges, e.g. "#5" will be replaced with "1+2+3+4+5" and "#5:7" with "5+6+7"
