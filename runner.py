@@ -31,7 +31,8 @@ if True:                        # Imports, command line options & defaults
     '\n             -l "NN+CB #5+1" will replace §1, §2 with "NN", "#5" and "CB", "1" respectively'+
     '\n             #5 will be replaced with 1+2+3+4+5, #5:7 with 5+6+7')
     _p.add_argument('-f', '--file', metavar='#', type=str, default='mnist.py',  help="script to run")
-    _p.add_argument('-w', '--workers', metavar='#', type=int, default=4, help='number of workers')     
+    _p.add_argument('-w', '--workers', metavar='#', type=int, default=1, help='number of workers')   
+    _p.add_argument('-s', '--save', metavar='#', type=int, default=0, help='save runner logs, config and script')   
     _p.add_argument('-of', '--outfolder', metavar='#', type=str, default='zoos', help='output folder')
     _p.add_argument('-rf', '--runfolder', metavar='#', type=str, default='mnist', help='run folder')
     _p.add_argument('-v', '--verbose', metavar='#', type=int, default=0, help='verbosity of each run')
@@ -109,7 +110,7 @@ if True:                        # Prepare arguments
         runs[i] = [runs[i], i+1]
 
 
-if True:                        # Backup file and logs
+if conf.save:                   # Backup file and logs
     os.makedirs(_EXPDIR, exist_ok=True)
     shutil.copyfile(os.path.realpath(__file__) , _EXPDIR  + '/'  + os.path.basename(__file__)  )
     with open(_EXPDIR  + '/' + _CONF_FILE, 'w') as file:
@@ -130,8 +131,9 @@ if True:                        # Worker
         os.system('python3 ' + conf.file + ' ' + run[0] + (' > /dev/null' if not conf.verbose else '') )
         _elapsed = time.time() - _r_time
         s = str(dt.datetime.now(tz=pytz.timezone(_TIMEZONE)))[:19] + ' Completed: ' + str(run[1]) + " / " + str(n) + ' in ' + human_time(_elapsed) + ' ETA: ' + human_time(_elapsed * ((n - run[1])  / conf.workers))
-        with open(_logpath,"a") as logfile:
-            logfile.write(s + '\n')
+        if conf.save:
+            with open(_logpath,"a") as logfile:
+                logfile.write(s + '\n')
         print(s)
 
 
@@ -141,7 +143,8 @@ if __name__ == '__main__':      # Main program
     pool.close()
     pool.join()
     s = str(dt.datetime.now(tz=pytz.timezone(_TIMEZONE)))[:19] + ' All finished! This took: ' + human_time(time.time() - _t_total)
-    with open(_logpath,"a") as logfile:
-        logfile.write(s + '\n')
+    if conf.save:
+        with open(_logpath,"a") as logfile:
+            logfile.write(s + '\n')
     print(s)
 
